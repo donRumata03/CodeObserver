@@ -1,0 +1,59 @@
+{
+  "___comment___" : "For each project there can be these options: 1) name : required, 2) \"Directory_Root\" for one root or \"directories\" for multiple, required, 3) \"additional_extensions\" : optional ",
+  "extensions" : [".py", ".cpp", ".h", ".hpp", ".c"],
+  "stat_file_capacity" : 100,
+  "projects" : [
+    {
+      "Directory_Root": "D:\\mylibs\\",
+      "name": "My Libraries"
+    },
+    {
+      "Directory_Root": "D:\\Projects\\Language\\",
+      "name": "Language"
+    },
+    {
+      "directories": [ "D:\\Projects\\Robot_Music\\" ],
+      "name": "Robot Music"
+    },
+    {
+      "Directory_Root": "D:\\Projects\\Experiments\\Pendulum_signal_processing\\",
+      "name": "Pendulum"
+    },
+    {
+      "Directory_Root": "D:\\Projects\\Literature_analyzer\\",
+      "name": "Literature analyzer"
+    },
+    {
+      "Directory_Root": "D:\\Projects\\Literature_parser\\",
+      "name": "Literature parser"
+    },
+    {
+      "Directory_Root": "D:\\Projects\\NeuralNetworks\\",
+      "name": "Neural Networks"
+    },
+    {
+      "Directory_Root": "D:\\Projects\\Sholokhov\\",
+      "name": "Sholokhov"
+    },
+    {
+      "Directory_Root": "D:\\Projects\\STM32\\",
+      "name": "STM32"
+    },
+    {
+      "Directory_Root": "C:\\Users\\Vova\\PycharmProjects\\PID_simulation",
+      "name": "PID simulation"
+    },
+    {
+      "Directory_Root": "C:\\Users\\Vova\\PycharmProjects\\Neural_Network_test",
+      "name": "My Neural Network implementations"
+    },
+    {
+      "Directory_Root": "C:\\Users\\Vova\\PycharmProjects\\Harmonizer",
+      "name": "Harmonizer"
+    },
+    {
+      "Directory_Root": "C:\\Users\\Vova\\PycharmProjects\\Chord_aproximator",
+      "name": "Chord_approximator"
+    }
+  ]
+}

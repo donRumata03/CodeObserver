@@ -1,0 +1,29 @@
+[
+    {
+        "name": "tasks_test.cpp",
+        "absolute_path": "D:\\Projects\\mylibs\\Tests\\tasks_test.cpp",
+        "relative_path": "Tests\\tasks_test.cpp",
+        "line_length_distribution": {
+            "21": 1,
+            "19": 3,
+            "0": 9,
+            "20": 2,
+            "10": 1,
+            "1": 5,
+            "53": 1,
+            "16": 1,
+            "38": 1,
+            "30": 1,
+            "35": 2,
+            "18": 1,
+            "24": 1,
+            "39": 1,
+            "27": 1,
+            "9": 1
+        },
+        "length": 514,
+        "blank_line_number": 9,
+        "non-blank_line_number": 23,
+        "line_number": 32
+    }
+]
