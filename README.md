@@ -1,5 +1,5 @@
 # Code Observer
-This is a tool, that observes your projects and makes statistics from the observation.
+This is a tool, that observes your projects and makes statistics based on the observation.
 
 ## Usage
 It contains two different parts:
