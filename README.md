@@ -19,4 +19,4 @@ There are this options as for now:
   4. Plot the graph of line length distribution.
   5. Plot the graph of line length distribution in different extensions. // TODO...
 
-Line_length_distribution_example_cpp_python.png
+![Alt text](Line_length_distribution_example_cpp_python.png)
