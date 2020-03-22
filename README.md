@@ -11,9 +11,9 @@ I configured the preiod to be 15 minutes.
 In this situation the amount of data per year with my 13 observable projects is nearly 5 GB, which is OK (for me).
 2) Statistics. The way to process all the logs stored during ...
 There are this options as for now:
-  1) Count all the size of code files in symbols / lines.
-  2) Number / percent of blank lines
-  3) Watch statistics of code amount with different extensoins (e.g. { ".cpp" : 420, ".py" : 42 } )
-  4) Plot the graph of line length distribution.
-  5) Plot the graph of line length distribution in different extensions. // TODO...
+  1. Count all the size of code files in symbols / lines.
+  2. Number / percent of blank lines
+  3. Watch statistics of code amount with different extensoins (e.g. { ".cpp" : 420, ".py" : 42 } )
+  4. Plot the graph of line length distribution.
+  5. Plot the graph of line length distribution in different extensions. // TODO...
 
