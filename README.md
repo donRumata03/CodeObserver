@@ -3,13 +3,15 @@ This is a tool, that observes your projects and makes statistics from the observ
 
 ## Usage
 It contains two different parts:
-1) Scraper. Its task is to walk through all files in project directories and to write the results to corresponding directory
+### Scraper. 
+Its task is to walk through all files in project directories and to write the results to corresponding directory
 All the stuff is configured in file "project_directory_config.json", which is situated in this project\`s root.
 There is an instruction for its usage into the file.
 File "Observer.pyw" should be launched periodically by windows task sheuduler or something like this. 
 I configured the preiod to be 15 minutes. 
 In this situation the amount of data per year with my 13 observable projects is nearly 5 GB, which is OK (for me).
-2) Statistics. The way to process all the logs stored during ...
+### Statistics. 
+The way to process all the logs stored during ...
 There are this options as for now:
   1. Count all the size of code files in symbols / lines.
   2. Number / percent of blank lines
