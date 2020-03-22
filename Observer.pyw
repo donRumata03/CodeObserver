@@ -19,7 +19,7 @@ def get_project_data(project_object : dict):
     # Main content:
 
     scraped = scrape_all_dirs(project_object["directories"], project_object["extensions"])
-    print_good_info("Scraped!")
+    print_good_info(f"{project_object['name']} : Scraped!")
     to_store = {
         "time": str(now),
         "data": scraped

@@ -1,0 +1,24 @@
+{
+  ".py" : "Python",
+
+  ".cpp"  : "C++",
+  ".c"    : "C++",
+  ".h"    : "C++",
+  ".hpp"  : "C++",
+
+
+
+  ".java" : "Java",
+
+  ".html" : "Web",
+  ".js"   : "Web",
+  ".css"  : "Web",
+  ".php"  : "Web",
+  ".cgi"  : "Web",
+
+  ".cs" : "C#",
+
+  ".go" : "Go",
+
+  ".ru" : "Rust"
+}

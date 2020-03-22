@@ -37,7 +37,7 @@ def graph_all_file_line_length_distribution(all_projects):
             res_counter += this_counter
     non_smoothed_graph = sorted([(int(k), res_counter[k]) for k in res_counter])
     print(non_smoothed_graph)
-    smoothed_graph = smooth_graph_as_log(non_smoothed_graph, 0.1, 10000)
+    smoothed_graph = smooth_graph_as_log(non_smoothed_graph, 0.1, 1000)
     fig = plt.figure()
     ax = fig.add_subplot()
 
@@ -48,8 +48,34 @@ def graph_all_file_line_length_distribution(all_projects):
     plt.show()
 
 
+def graph_file_extension_line_length_distribution(all_projects, extensions = (".py", ".cpp")):
+    fig = plt.figure()
+    ax = fig.add_subplot()
+
+    ax.set_yscale('log')
+    ax.set_xscale('log')
+
+    for extension in extensions:
+        res_counter = Counter()
+
+        for this_project_data in all_projects:
+            project = data_base_processor.load_last_proj_temp(this_project_data)
+            for file in project["data"]:
+                if has_extension(file["name"], extension) and not startswith(file["relative_path"], "venv"):
+                    this_counter = Counter(file["line_length_distribution"])
+                    res_counter += this_counter
+        non_smoothed_graph = sorted([(int(k), res_counter[k]) for k in res_counter])
+        print(non_smoothed_graph)
+        smoothed_graph = smooth_graph_as_log(non_smoothed_graph, 0.1, 1000)
+        ax.plot([i[0] for i in smoothed_graph], [i[1] for i in smoothed_graph], label=extension)
+
+    ax.legend()
+    plt.show()
+
+
 
 if __name__ == "__main__":
     # count_all_project_sizes(project_data)
     # print_as_json(count_project_extension_stat(data_base_processor.load_last_proj_temp(project_data[3])))
-    graph_all_file_line_length_distribution(project_data)
+    # graph_all_file_line_length_distribution(project_data)
+    graph_file_extension_line_length_distribution(project_data)

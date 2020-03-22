@@ -1,5 +1,6 @@
 {
   "___comment___" : "For each project there can be these options: 1) name : required, 2) \"Directory_Root\" for one root or \"directories\" for multiple, required, 3) \"additional_extensions\" : optional ",
+  "stat_directory" : "D:\\Projects\\Code_Observer\\Statistics",
   "extensions" : [".py", ".cpp", ".h", ".hpp", ".c"],
   "stat_file_capacity" : 100,
   "projects" : [

@@ -7,6 +7,7 @@ if "STARTUP_SUCCEED" not in globals():
 
     stat_directory = "D:\\Projects\\Code_Observer\\Statistics"
     config_file_path = "D:\\Projects\\Code_Observer\\project_directory_config.json"
+    language_extension_path = "D:\\Projects\\Code_Observer\\language_extension_info.json"
 
     try:
         os.makedirs(stat_directory)
@@ -15,6 +16,8 @@ if "STARTUP_SUCCEED" not in globals():
 
     # Load project data from config and create directories for them
     config_file_data = json.loads(open(config_file_path, "r").read())
+    if "stat_directory" in config_file_data:
+        stat_directory = config_file_data["stat_directory"]
     projects_config_data = config_file_data["projects"]
     common_code_extensions = config_file_data["extensions"]
     stat_file_capacity = config_file_data["stat_file_capacity"]
@@ -43,7 +46,10 @@ if "STARTUP_SUCCEED" not in globals():
             "extensions" : common_code_extensions if "additional_extensions" not in _project else list(set(common_code_extensions + _project["additional_extensions"]))
         })
 
-    print_good_info("Data from Config file loaded and processed successfully!")
+    # Load language extension file:
+    language_extensions = json.loads(open(language_extension_path, "r").read())
+
+    print_good_info("Data from Config file and language extension file loaded and processed successfully!")
     # print(json.dumps(project_data, indent = 4))
 
 STARTUP_SUCCEED = True

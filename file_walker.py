@@ -3,6 +3,7 @@ from typing import*
 from mylang import *
 import collections
 import itertools
+from startup import *
 
 def sub_strings(path : str, path0 : str):
     return path[len(path0):]
@@ -36,6 +37,8 @@ def scrape_files(base_path : str, extensions : List[str]) -> List[dict]:
             3) blank line number,
             4) number of symbols
             5) line length distribution
+            6) Extension
+            7) Programming language (if recognized)
     """
     file_data = get_file_data_with_extensions(base_path, extensions)
 
@@ -60,6 +63,11 @@ def scrape_files(base_path : str, extensions : List[str]) -> List[dict]:
         file["non-blank_line_number"] = real_line_number
 
         file["line_number"] = all_line_number
+
+        file["extension"] = get_file_extension(file["name"])
+
+        if file["extension"] in language_extensions:
+            file["language"] = language_extensions[file["extension"]]
 
         res.append(file)
 

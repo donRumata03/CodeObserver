@@ -349,7 +349,10 @@ def is_spacieve_char(char : str):
 def get_file_extension(filename : str):
     return "." + filename.split(".")[-1]
 
-def plot_tuple_graph(ax, tuple_arr : List[tuple]) -> None:
+def startswith(string : str, start : str) -> bool:
+    return string[:len(start)] == start
+
+def plot_tuple_graph(ax, tuple_arr : List[tuple], label = None) -> None:
     ax.plot([i[0] for i in tuple_arr], [i[1] for i in tuple_arr])
 
 def is_spacieve(string : str) -> bool:
