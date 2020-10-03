@@ -17,6 +17,8 @@ There are this options as for now:
   2. Number / percent of blank lines
   3. Watch statistics of code amount with different extensoins (e.g. { ".cpp" : 420, ".py" : 42 } )
   4. Plot the graph of line length distribution.
-  5. Plot the graph of line length distribution in different extensions. // TODO...
+  5. Plot the graph of line length distribution in different extensions.
 
-Line_length_distribution_example_cpp_python.png
+
+#### Here is an example for .py and .cpp files line length distribution:
+![Alt text](Line_length_distribution_example_cpp_python.png)
