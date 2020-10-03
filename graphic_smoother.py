@@ -1,5 +1,4 @@
-# don't use freaking VS Code!!1!!!1!! ...
-from typing import Final
+from typing import *
 
 import numpy as np
 from matplotlib import pyplot as plt
@@ -17,30 +16,55 @@ def smoothing_normal(distance, sigma):
 def smoothing_sqrt(distance, sigma):
     return 1 / np.sqrt((abs(distance) + 1) * sigma)
 
+def smoothing_square(distance, sigma):
+    return 1 / (1 + distance**2) # TODO!
+
 def combi_smoothing(distance, sigma):
     return np.cbrt(smoothing_normal(distance, sigma) * smoothing_sqrt(distance, sigma))
 
 
-def smoothing_base(data : Union[list, np.ndarray], points : Union[list, np.ndarray], smoothing_function : Callable, percent_sigma : float) -> np.ndarray:
+def smoothing_base(data : Union[List[Tuple[float, float]], np.ndarray], points : Union[List[float], np.ndarray], smoothing_function : Callable, percent_sigma : float) -> np.ndarray:
     """
+    :param percent_sigma: from 0 to 1, relative value of sigma
     :param smoothing_function: returns coefficient by distance and sigma
     :param data: Example : [(1, 3), (2, 4), (3, 5)]
     :param points: Example : [1, 1.5, 2, 2.5, 3, 3.5, 4]
     :return: smoothed graph with points : points
     """
-    sigma = percent_sigma * len(data)
+    sigma = percent_sigma * (max([i[0] for i in data]) - min([i[0] for i in data]))
+    print(f"Absolute sigma is: {sigma}")
 
     res = np.array([(p, 0.) for p in points])
 
     for index, (p_x, p_y) in enumerate(res):
         ks_sum = 0.
         for (x, y) in data:
-            this_coeff : float = float(smoothing_function(abs(p_x - x), percent_sigma))
+            this_coeff : float = float(smoothing_function(abs(p_x - x), sigma))
             ks_sum += this_coeff
             res[index][1] += this_coeff * y
         res[index][1] /= ks_sum
 
     return res
+
+
+def density_counting_base(numbers_for_density : Union[List[float], np.ndarray], points : Union[List[float], np.ndarray], smoothing_function : Callable, percent_sigma : float) -> np.ndarray:
+    sigma = percent_sigma * (max(numbers_for_density) - min(numbers_for_density))
+    print(f"Absolute sigma is: {sigma}")
+
+    res = np.array([(p, 0.) for p in points])
+    total_area_under_curve = 0.
+
+    for index, (p_x, p_y) in enumerate(res):
+        for number in numbers_for_density:
+            this_coeff : float = float(smoothing_function(abs(p_x - number), sigma))
+            res[index][1] += this_coeff
+            total_area_under_curve += this_coeff
+
+    for index in range(len(res)):
+        res[index][1] /= total_area_under_curve
+
+    return res
+
 
 
 """
@@ -78,7 +102,8 @@ def smooth_graph(data : list, percent_sigma : float = 0.5, percent_frame_size : 
     # print()             # W H Y
     return res
     """
-def smooth_graph(data : Union[list, np.ndarray], percent_sigma, smoothing_function : Callable = combi_smoothing, points_number : int = None):
+
+def smooth_graph(data : Union[List[Tuple[float, float]], np.ndarray], percent_sigma, smoothing_function : Callable = combi_smoothing, points_number : int = None):
     data_xs = [p[0] for p in data]
     if points_number is None:
         points = data_xs
@@ -87,6 +112,11 @@ def smooth_graph(data : Union[list, np.ndarray], percent_sigma, smoothing_functi
         points = np.linspace(min_x, max_x, points_number)
 
     return smoothing_base(data, points, smoothing_function, percent_sigma)
+
+def count_density(numbers_for_density : Union[List[float], np.ndarray], percent_sigma : float, points_number : int, smoothing_function : Callable = combi_smoothing):
+    min_x, max_x = min(numbers_for_density), max(numbers_for_density)
+    points = np.linspace(min_x, max_x, points_number)
+    return density_counting_base(numbers_for_density, points, smoothing_function, percent_sigma)
 
 
 def get_logariphmated_graph_x(data):
@@ -131,31 +161,69 @@ def print_as_json(data : object):
 """
 
 def test_smoothing():
+    """
     testing_smoothing : Final = [
         (0, 1),
         (2, 0),
         (50, 1),
         (100, 7)
-    ]               # why don't you use consts <<<<--------------           ?????????????????????????????????????
+    ]               
+    """
 
-    smoothed = smooth_graph(testing_smoothing, 15, smoothing_normal, 1000)
-    print(smoothed)
-    smoothed_xs = []
-    smoothed_ys = []
+    # testing_smoothing : Final = [
+    #     [ 0. , 157.31799316],
+    #     [ 2113. , 183.59713745],
+    #     [ 4226. , 152.10749817],
+    #     [ 6339. , 165.4584198 ],
+    #     [ 8452. , 148.52165222],
+    #     [10565. , 195.10722351],
+    #     [12678. , 184.02459717],
+    #     [14791. , 154.00990295],
+    #     [16904. , 153.58700562],
+    #     [19017. , 181.10574341]
+    # ]
 
-    raw_xs = []
-    raw_ys = []
-    for s in smoothed:
-        smoothed_xs.append(s[0])
-        smoothed_ys.append(s[1])
+    testing_graph = [
+        (1, 1),
+        (1.5, 1.1),
+        (2, 2),
+        (3, 0.1),
+        (4, 3.1),
+    ]
 
-    for s in testing_smoothing:
-        raw_xs.append(s[0])
-        raw_ys.append(s[1])
+    combi_smoothed = smooth_graph(testing_graph, 0.1, combi_smoothing, 1000)
+    normal_smoothed = smooth_graph(testing_graph, 0.1, smoothing_normal, 1000)
 
-    plt.plot(smoothed_xs, smoothed_ys)
-    plt.plot(raw_xs, raw_ys)
+    plt.plot([i[0] for i in testing_graph], [i[1] for i in testing_graph], label = "Initial points")
+    plt.plot([i[0] for i in combi_smoothed], [i[1] for i in combi_smoothed], label = "Combi smoothed")
+    plt.plot([i[0] for i in normal_smoothed], [i[1] for i in normal_smoothed], label = "Normal smoothed")
+
+    plt.legend()
     plt.show()
+
+
+def test_density_counting():
+    numbers = [
+        1,
+        1.1,
+        3,
+        2,
+        2.2,
+        2.1,
+        1.9,
+        1.5,
+        2.5,
+        2.9,
+        5
+    ]
+
+    res = count_density(numbers, 0.07, 100, smoothing_normal)
+
+    plt.plot([i[0] for i in res], [i[1] for i in res])
+    plt.scatter(numbers, [0] * len(numbers))
+    plt.show()
+
+
 
 
 def count_graph_area(graphic : list) -> float:
@@ -169,3 +237,4 @@ def count_graph_area(graphic : list) -> float:
 
 if __name__ == "__main__":
     test_smoothing()
+    # test_density_counting()

@@ -21,5 +21,12 @@ def load_last_proj_temp(proj_obj : dict) -> Dict:
     all_pr_data = json.loads(open(find_last_temp_path(proj_obj), "r").read())
     return all_pr_data[-1]
 
+def select_project_by_name(all_projects : List[dict], project_name : str) -> Optional[dict]:
+    for pr in all_projects:
+        if pr["name"] == project_name:
+            return pr
+
+    return None
+
 if __name__ == '__main__':
     print_as_json(load_last_proj_temp(project_data[0]))

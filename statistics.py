@@ -6,9 +6,52 @@ from graphic_smoother import *
 
 def count_total_project_size(project_stat : Dict) -> dict:
     return {
-        "length" : sum([file["length"] for file in project_stat["data"]]),
-        "lines" : sum([file["line_number"] for file in project_stat["data"]])
+        "length" : sum([file["length"] for file in project_stat["data"] if not startswith(file["relative_path"], "venv")]),
+        "lines" : sum([file["line_number"] for file in project_stat["data"] if not startswith(file["relative_path"], "venv")])
     }
+
+def count_project_folder_stat(project_stat : Dict):
+    # TODO!
+    # +TODO: add new projects and change other project locations!
+
+    folders = set()
+
+
+    for file in project_stat["data"]:
+        if startswith(file["relative_path"], "venv") or startswith(file["relative_path"], "cmake-build") or startswith(file["relative_path"], "."):
+            continue
+
+        splitted = split_if(file["relative_path"], lambda x: x == "/" or x == "\\")
+        if len(splitted) == 1:
+            # It`s a file, but not a folder!
+            continue
+        initial_folder = splitted[0]
+        folders.add(initial_folder)
+
+    cnt = defaultdict(int)
+    for file in project_stat["data"]:
+        if startswith(file["relative_path"], "venv") or startswith(file["relative_path"], "cmake-build") or startswith(
+                file["relative_path"], "."):
+            continue
+
+        splitted = split_if(file["relative_path"], lambda x: x == "/" or x == "\\")
+        if len(splitted) == 1:
+            # It`s a file, but not a folder!
+            continue
+        initial_folder = splitted[0]
+
+
+        cnt[initial_folder] = cnt[initial_folder] + file["length"]
+
+    values = sorted([(cnt[i], i) for i in cnt])  # [::-1]
+    print(values)
+
+    fig, ax = plt.subplots()
+    xs = np.arange(len(values))
+    plt.bar(xs, [v[0] for v in values])
+
+    plt.xticks(xs, tuple([v[1] for v in values]))
+    plt.show()
 
 def count_project_extension_stat(project_temp : Dict) -> Dict[str, defaultdict]:
     symb_res = defaultdict(int)
@@ -52,6 +95,7 @@ def graph_file_extension_line_length_distribution(all_projects, extensions = (".
     fig = plt.figure()
     ax = fig.add_subplot()
 
+
     ax.set_yscale('log')
     ax.set_xscale('log')
 
@@ -75,7 +119,10 @@ def graph_file_extension_line_length_distribution(all_projects, extensions = (".
 
 
 if __name__ == "__main__":
+    # TODO: delete useless (duplicated) logs
+    # TODO: project history stats!!!
+    count_project_folder_stat(data_base_processor.load_last_proj_temp(data_base_processor.select_project_by_name(project_data, "Pythonic")))
     # count_all_project_sizes(project_data)
     # print_as_json(count_project_extension_stat(data_base_processor.load_last_proj_temp(project_data[3])))
     # graph_all_file_line_length_distribution(project_data)
-    graph_file_extension_line_length_distribution(project_data)
+    # graph_file_extension_line_length_distribution(project_data)
