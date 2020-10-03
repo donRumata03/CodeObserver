@@ -32,7 +32,7 @@ def smoothing_base(data : Union[List[Tuple[float, float]], np.ndarray], points :
     :return: smoothed graph with points : points
     """
     sigma = percent_sigma * (max([i[0] for i in data]) - min([i[0] for i in data]))
-    print(f"Absolute sigma is: {sigma}")
+    # print(f"Absolute sigma is: {sigma}")
 
     res = np.array([(p, 0.) for p in points])
 
@@ -49,7 +49,7 @@ def smoothing_base(data : Union[List[Tuple[float, float]], np.ndarray], points :
 
 def density_counting_base(numbers_for_density : Union[List[float], np.ndarray], points : Union[List[float], np.ndarray], smoothing_function : Callable, percent_sigma : float) -> np.ndarray:
     sigma = percent_sigma * (max(numbers_for_density) - min(numbers_for_density))
-    print(f"Absolute sigma is: {sigma}")
+    # print(f"Absolute sigma is: {sigma}")
 
     res = np.array([(p, 0.) for p in points])
     total_area_under_curve = 0.
