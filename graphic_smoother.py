@@ -58,7 +58,9 @@ def density_counting_base(numbers_for_density : Union[List[float], np.ndarray], 
         for number in numbers_for_density:
             this_coeff : float = float(smoothing_function(abs(p_x - number), sigma))
             res[index][1] += this_coeff
-            total_area_under_curve += this_coeff
+
+            dx = 0 if index == 0 else points[index] - points[index - 1]
+            total_area_under_curve += this_coeff * dx
 
     for index in range(len(res)):
         res[index][1] /= total_area_under_curve
@@ -219,6 +221,8 @@ def test_density_counting():
 
     res = count_density(numbers, 0.07, 100, smoothing_normal)
 
+    print(f"Resultant graph area is: {count_graph_area(res)}")
+
     plt.plot([i[0] for i in res], [i[1] for i in res])
     plt.scatter(numbers, [0] * len(numbers))
     plt.show()
@@ -226,7 +230,7 @@ def test_density_counting():
 
 
 
-def count_graph_area(graphic : list) -> float:
+def count_graph_area(graphic : Union[list, np.ndarray]) -> float:
     accum = 0
     last : tuple
     for index, point in enumerate(graphic):
@@ -236,5 +240,5 @@ def count_graph_area(graphic : list) -> float:
     return accum
 
 if __name__ == "__main__":
-    test_smoothing()
-    # test_density_counting()
+    # test_smoothing()
+    test_density_counting()
